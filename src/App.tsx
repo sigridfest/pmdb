@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { PokemonCard } from './components/PokemonCard';
+import { PokemonTable } from './components/PokemonTable';
 
-const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
+const API_URL = 'https://pokeapi.co/api/v2/pokemon?limit=151';
+
 
 interface Pokemon {
   name: string;
-  id: string;
+  id: number;
   image: string;
+  weight: number;
+  height: number;
+  types: string[];
+  hp: number;
+  attack: number;
+  defense: number;
 }
 
 function App() {
@@ -20,7 +27,7 @@ function App() {
       try {
         const response = await fetch(API_URL);
         const data = await response.json();
-
+  
         const pokemonDetails = await Promise.all(
           data.results.map(async (pokemonItem: { name: string; url: string }) => {
             const res = await fetch(pokemonItem.url);
@@ -29,10 +36,16 @@ function App() {
               name: details.name,
               id: details.id,
               image: details.sprites.front_default,
+              height: details.height,
+              weight: details.weight,
+              types: details.types.map((type: any) => type.type.name),
+              hp: details.stats[0].base_stat,
+              attack: details.stats[1].base_stat,
+              defense: details.stats[2].base_stat,
             } as Pokemon;
           })
         );
-
+  
         setPokemon(pokemonDetails);
       } catch (err) {
         setError('Failed to fetch Pokémon data.');
@@ -41,7 +54,7 @@ function App() {
         setLoading(false);
       }
     };
-
+  
     fetchPokemon();
   }, []);
 
@@ -50,8 +63,12 @@ function App() {
 
   return (
     <div className="App">
-      {pokemon.map((pokemon) => (
-        <PokemonCard key={pokemon.id} name={pokemon.name} id={pokemon.id} image={pokemon.image} />))}
+      
+      <div className='Header'>
+        <h1 className='HeaderText'>PokémonDB</h1>
+      </div>
+
+      <PokemonTable pokemonData={pokemon}/>
     </div>
   );
 }
