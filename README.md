@@ -16,7 +16,7 @@
 
 ### `npm start`
 
-## 4) Run tests
+## 5) Run tests (If tests have been written)
 
 ### `npm test`
 
