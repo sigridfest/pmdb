@@ -12,6 +12,8 @@ interface RowProps {
   rowRefs: React.MutableRefObject<Record<number, HTMLTableRowElement | null>>;
 }
 
+const HEADER_HEIGHT = 40.8;
+
 export const PokemonTableRow: React.FC<RowProps> = ({
   pokemon,
   columns,
@@ -29,7 +31,7 @@ export const PokemonTableRow: React.FC<RowProps> = ({
         hover
         selected={isSelected}
         onClick={() => onRowClick(pokemon.id)}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', scrollMarginTop: `${HEADER_HEIGHT}px`,  }}
       >
         {columns.map((column) => (
           <TableCell
