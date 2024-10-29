@@ -4,7 +4,6 @@ import { Column } from '../types/index';
 export const useColumnVisibility = (columns: Column[]) => {
   const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>(
     () => {
-      // Initialize all columns to visible
       const initialVisibility = columns.reduce((acc, column) => {
         acc[column.id] = true;
         return acc;
@@ -24,9 +23,7 @@ export const useColumnVisibility = (columns: Column[]) => {
     }
   );
 
-  // Update localStorage whenever visibleColumns changes
   useEffect(() => {
-    // Store only hideable columns' visibility
     const hideableColumnsVisibility = Object.fromEntries(
       Object.entries(visibleColumns).filter(([key]) => {
         const column = columns.find((col) => col.id === key);

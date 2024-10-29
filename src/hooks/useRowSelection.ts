@@ -26,18 +26,15 @@ export const useRowSelection = (pokemonData: Pokemon[]) => {
         const prevIndex = currentIndex - 1;
         setSelectedRowId(pokemonData[prevIndex].id);
       }
-      // If at the top, do not move
     } else if (event.key === 'ArrowDown') {
       event.preventDefault();
       if (currentIndex < pokemonData.length - 1) {
         const nextIndex = currentIndex + 1;
         setSelectedRowId(pokemonData[nextIndex].id);
       }
-      // If at the bottom, do not move
     }
   };
 
-  // Scroll the selected row into view when selectedRowId changes
   useEffect(() => {
     if (selectedRowId !== null) {
       const rowElement = rowRefs.current[selectedRowId];
