@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import { useState, useEffect } from 'react';
 import { PokemonTable } from './components/PokemonTable';
+import { Pokemon } from './types/index'; 
 
 const API_URL = 'https://pokeapi.co/api/v2/pokemon?limit=151';
-
-
-interface Pokemon {
-  name: string;
-  id: number;
-  image: string;
-  weight: number;
-  height: number;
-  types: string[];
-  hp: number;
-  attack: number;
-  defense: number;
-}
 
 function App() {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
@@ -27,7 +14,7 @@ function App() {
       try {
         const response = await fetch(API_URL);
         const data = await response.json();
-  
+
         const pokemonDetails = await Promise.all(
           data.results.map(async (pokemonItem: { name: string; url: string }) => {
             const res = await fetch(pokemonItem.url);
@@ -42,10 +29,11 @@ function App() {
               hp: details.stats[0].base_stat,
               attack: details.stats[1].base_stat,
               defense: details.stats[2].base_stat,
+              speed: details.stats[5].base_stat,
             } as Pokemon;
           })
         );
-  
+
         setPokemon(pokemonDetails);
       } catch (err) {
         setError('Failed to fetch Pokémon data.');
@@ -54,7 +42,7 @@ function App() {
         setLoading(false);
       }
     };
-  
+
     fetchPokemon();
   }, []);
 
@@ -62,13 +50,10 @@ function App() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="App">
-      
-      <div className='Header'>
-        <h1 className='HeaderText'>PokémonDB</h1>
-      </div>
+    <div style={{ justifyItems: 'center', backgroundColor: '#8AB07E', fontFamily: 'Gill Sans',}}>
 
-      <PokemonTable pokemonData={pokemon}/>
+      <PokemonTable pokemonData={pokemon} />
+
     </div>
   );
 }
