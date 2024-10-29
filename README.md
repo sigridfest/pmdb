@@ -8,7 +8,7 @@
 
 ### `cd pmdb`
 
-## 3) HVA
+## 3) Install dependencies
 
 ### `npm install`
 
