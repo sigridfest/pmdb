@@ -2,7 +2,7 @@
 
 ## 1) Clone the repository
 
-### `git clone HTTPS_URL`
+### `git clone https://github.com/sigridfest/pmdb.git`
 
 ## 2) Navigate into project directory
 
